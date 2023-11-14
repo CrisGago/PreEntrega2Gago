@@ -1,23 +1,34 @@
-/* item.css */
+/* itemDetail.css */
 
-.contenedor {
+.container {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
     border: 1px solid #ddd;
-    padding: 10px;
-    margin: 10px;
-    text-align: center;
+    margin: 20px;
   }
   
-  .contenedor a {
-    text-decoration: none;
-    color: #333;
+  .container img {
+    max-width: 100%;
+    height: auto;
+    margin-bottom: 20px;
   }
   
-  .contenedor h1 {
+  .container div {
     margin-bottom: 10px;
   }
   
-  .contenedor img {
-    max-width: 100%;
-    height: auto;
+  .link {
+    display: inline-block;
+    padding: 10px;
+    background-color: #3498db;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    margin-top: 10px;
+  }
+  
+  .link:hover {
+    background-color: #2980b9;
   }
   

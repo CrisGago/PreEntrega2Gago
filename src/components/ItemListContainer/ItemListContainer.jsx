@@ -34,8 +34,8 @@ const ItemListContainer = () => {
         <>
             {products.length == 0
                 ?
-                <h1>CARGANDO...</h1>
-               :
+                <h1>En Construcción de clic en el logo o en Modelo "ej. Mono"...</h1>
+                :
                 <ItemList products={products} />}
         </>
     );
