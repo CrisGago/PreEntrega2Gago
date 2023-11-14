@@ -2,6 +2,8 @@ import React,{useState} from 'react';
 import ItemCount from '../ItemCount/ItemCount';
 import { Link } from 'react-router-dom';
 
+
+
 const ItemDetail = ({producto}) => {
 
     const [quantity,setQuantity] = useState(0)
@@ -22,7 +24,7 @@ const ItemDetail = ({producto}) => {
             == 0 ? 
             <ItemCount initial={1} stock={producto.stock} onAdd={onAdd}/>
             :
-            <Link to={"/Cart"}>Ir al carrito</Link>
+            <Link to={"/CartWidget"}>Ir al carrito</Link>
             }
         </div>
     );

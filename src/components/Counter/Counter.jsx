@@ -1,9 +1,9 @@
 import React from 'react';
-import useCounter from '../useCounter/useCounter';
+import UseCounter from '../UseCounter/UseCounter';
 
 const Counter = () => {
 
-    const {count,increment,decrement} = useCounter(0)
+    const {count,increment,decrement} = UseCounter(0)
     return (
         <div>
             <p>Count: {count}</p>

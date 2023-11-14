@@ -1,0 +1,22 @@
+/* item.css */
+
+.contenedor {
+    border: 1px solid #ddd;
+    padding: 10px;
+    margin: 10px;
+    text-align: center;
+  }
+  
+  .contenedor a {
+    text-decoration: none;
+    color: #333;
+  }
+  
+  .contenedor h1 {
+    margin-bottom: 10px;
+  }
+  
+  .contenedor img {
+    max-width: 100%;
+    height: auto;
+  }

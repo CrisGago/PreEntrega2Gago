@@ -2,37 +2,34 @@ import React from "react";
 import { Link, NavLink } from "react-router-dom";
 import "./navbar.css";
 
-
 const NavBar = () => {
-
     const enlaces = [
         "Inicio",
         "Obras",
-        "Presupuesta",
         // categorias
         "Mono",
         "Barbacoa",
         "Duplex",
         "Big"
-    ]
+    ];
 
     return (
-        <div className='nav'>
+        <div className="nav">
             <Link className="enlace" to={"/"}>
-                <p>LOGO</p>
+                <img src="/img/logo3d.jpg" alt="Logo" />
             </Link>
-            
-            <ul className='enlacesContainer'>
-                {enlaces.map((e,id) => 
-                    <li  className="liContainer" key={id}>
+
+             <ul className="enlacesContainer">
+                {enlaces.map((e, id) => (
+                    <li className="liContainer" key={id}>
                         <NavLink activeClassName="active" to={`${e}`}>
-                         {e}
+                            {e}
                         </NavLink>
                     </li>
-                )}
-              
+                ))}
             </ul>
         </div>
     );
 };
-export default NavBar
+
+export default NavBar;

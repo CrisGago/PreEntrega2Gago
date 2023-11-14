@@ -1,26 +1,17 @@
 [
     {
         "id":1,
-        "nombre": "Casa 1",
+        "nombre": "Modelo 1",
         "precio": 1000,
         "img":"/img/modelo1.jpg",
         "descripcion": "detalle de la casa",
         "stock": 1,
         "categoria": "Mono"
     },
+    
     {
         "id":2,
-        "nombre": "Casa 2",
-        "precio": 2000,
-        "img":"/img/modelo11.jpg",
-        "descripcion": "detalle de la casa",
-        "stock":2,
-        "categoria": "Barbacoa"
-
-    },
-    {
-        "id":3,
-        "nombre": "Casa 3",
+        "nombre": "Modelo 2",
         "precio": 3000,
         "img":"/img/modelo2.jpg",
         "descripcion": "detalle de la casa",
@@ -28,12 +19,22 @@
         "categoria":"Duplex"
     },
     {
-        "id":4,
-        "nombre": "Casa 4",
+        "id":3,
+        "nombre": "Modelo 3",
         "precio": 4000,
         "img":"/img/modelo3.jpg",
         "descripcion": "detalle de la casa",
         "stock":3,
         "categoria": "Big"
+    },
+    {
+        "id":11,
+        "nombre": "Modelo 11",
+        "precio": 2000,
+        "img":"/img/modelo11.jpg",
+        "descripcion": "detalle de la casa",
+        "stock":5,
+        "categoria": "Barbacoa"
+
     }
 ]
