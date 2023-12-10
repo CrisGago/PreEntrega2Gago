@@ -2,14 +2,21 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import ItemList from '../ItemList/ItemList';
 import { useParams } from 'react-router-dom';
+import { collection,getDocs,getFirestore,query,where} from 'firebase/firestore';
 
 const ItemListContainer = () => {
 
     const [products, setProducts] = useState([]);
-    const { categoryId } = useParams()
+    const [londing, setLoading] = useState(true);
+    const { categoryId } = useParams();
 
 
     useEffect(() => {
+        setLoading(true);
+        const db=getFirestore()
+        const misObras =categoryId
+        ? query(collection(db,"productos"),where("categoria","==, categoryId)
+        :collection(db,"productos")
 
         const fetchData = () => {
             return fetch("/data/productos.json")
