@@ -15,8 +15,7 @@ const ItemListContainer = () => {
         setLoading(true);
         const db=getFirestore()
         const misObras =categoryId
-        ? query(collection(db,"productos"),where("categoria","==, categoryId)
-        :collection(db,"productos")
+       
 
         const fetchData = () => {
             return fetch("/data/productos.json")
