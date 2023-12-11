@@ -1,5 +1,6 @@
 import React from "react";
 
+<<<<<<< HEAD
 const CartItem = ({ cartItem, removeItem }) => {
   // console.log("cartItem:", cartItem);
 
@@ -26,5 +27,21 @@ const CartItem = ({ cartItem, removeItem }) => {
   );
 };
 
+=======
+const CartItem =({CartItem,removeItem}) =>{
+    return (
+    <div key={CartItem.productos.id}>
+       <img src={CartItem.productos.img} alt={CartItem.nombre} />
+       <h1>{CartItem.productos.nombre}</h1>
+       <p>{CartItem.productos.precio}</p>
+       <p>{CartItem.productos.stock}</p>
+       <p>{CartItem.productos.descripcion}</p>
+       <p>{CartItem.cantidad}</p>
+       <p>{CartItem.cantidad*p.productos.precio}</p>
+       <button onClick={()=>{removeItem(CartItem.productos.id)}}>ELIMINAR PRODUCTO</button>
+     </div>
+    )
+};
+>>>>>>> b859ce3a21e157e27947f448937cb8040a6276df
 export default CartItem;
 

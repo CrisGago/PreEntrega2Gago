@@ -15,6 +15,13 @@ import ItemDetailContainer from './components/ItemDetailContainer/ItemDetailCont
 import CartWidget from './components/CartWidget/CartWidget';
 import ChecKout from './components/ChecKout/ChecKout';
 import Error from './components/Error/Error';
+import Cart from './components/Cart/Cart';
+import ThemeProvider from './context/ThemeProvider';
+
+import {getFirestore,collection,getDocs,quer} from "firebase/firestore";
+
+
+
 
 
 function App() {

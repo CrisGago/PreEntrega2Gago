@@ -8,7 +8,8 @@ import { getFirestore, collection, getDocs } from 'firebase/firestore'; // Impor
 const ItemListContainer = () => {
 
     const [products, setProducts] = useState([]);
-    const { categoryId } = useParams()
+    const [londing, setLoading] = useState(true);
+    const { categoryId } = useParams();
 
 
 useEffect(() => {
