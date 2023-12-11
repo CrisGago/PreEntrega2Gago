@@ -22,7 +22,7 @@ const NavBar = () => {
              <ul className="enlacesContainer">
                 {enlaces.map((e, id) => (
                     <li className="liContainer" key={id}>
-                        <NavLink activeClassName="active" to={`${e}`}>
+                        <NavLink activeclassname="active" to={`${e}`}>
                             {e}
                         </NavLink>
                     </li>

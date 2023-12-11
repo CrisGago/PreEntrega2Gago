@@ -1,31 +1,40 @@
-import React, {useState,useEffect} from 'react';
+import { useState, useEffect } from 'react';
 import ItemDetail from '../ItemDetail/ItemDetail';
 import { useParams } from 'react-router-dom';
+import { getFirestore, doc, getDoc } from 'firebase/firestore';
 
 const ItemDetailContainer = () => {
+    const [product, setProduct] = useState({}); 
 
-    const [product, setProduct] = useState(null)
+    const { idProduct } = useParams();
 
-    const {idProduct} = useParams()
+    useEffect(() => {
+        const fetchData = async () => {
+            const db = getFirestore();
+            const productRef = doc(db, 'productos', idProduct);
 
-    useEffect(()=>{
-        const fetchData = () => {
-            return fetch("/data/productos.json")
-            .then((response)=>response.json())
-            .then((data)=> {
-                const foundProduct = data.find((item)=> item.id == idProduct) 
-                setProduct(foundProduct)
-            })
-            .catch((error)=>console.log(error))
-        }
+            try {
+                const docSnap = await getDoc(productRef);
 
-        fetchData()
-    },[idProduct])
+                if (docSnap.exists()) {
+                    const foundProduct = { id: docSnap.id, ...docSnap.data() };
+                    setProduct(foundProduct);
+                } else {
+                    console.log('No existe document!');
+                }
+                
+            } catch (error) {
+                console.error('Error fetching data from Firestore:', error);
+            }
+        };
+
+        fetchData();
+    }, [idProduct]);
 
     return (
         <div>
             {
-                product ? <ItemDetail producto={product}/> : <p>CARGANDO..</p>
+                product ? <ItemDetail producto={product} /> : <p>CARGANDO..</p>
             }
         </div>
     );

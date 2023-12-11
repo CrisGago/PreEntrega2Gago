@@ -1,0 +1,46 @@
+/* Estilos para el contenedor principal */
+.item-detail-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+  }
+  
+  /* Estilos para la imagen */
+  .item-detail-image {
+    max-width: 100%;
+    height: auto;
+    margin-bottom: 10px;
+  }
+  
+  /* Estilos para los textos y detalles */
+  .item-detail-info {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .item-detail-info h2 {
+    font-size: 1.5em;
+    margin-bottom: 10px;
+  }
+  
+  .item-detail-info p {
+    margin: 5px 0;
+  }
+  
+  /* Estilos para el botón o enlace de carrito */
+  .item-detail-button {
+    text-decoration: none;
+    padding: 10px 20px;
+    background-color: #4caf50;
+    color: #fff;
+    font-size: 1em;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .item-detail-button:hover {
+    background-color: #45a049;
+  }
+  

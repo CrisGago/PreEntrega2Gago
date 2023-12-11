@@ -1,7 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import ItemList from '../ItemList/ItemList';
 import { useParams } from 'react-router-dom';
+import { getFirestore, collection, getDocs } from 'firebase/firestore'; // Importa las funciones de Firestore
+
 
 const ItemListContainer = () => {
 
@@ -9,28 +11,30 @@ const ItemListContainer = () => {
     const { categoryId } = useParams()
 
 
-    useEffect(() => {
+useEffect(() => {
+    const fetchData = async () => {
+        const db = getFirestore();
+        const obrasRef = collection(db, 'productos');
 
-        const fetchData = () => {
-            return fetch("/data/productos.json")
-                .then((response) => response.json())
-                .then((data) => {
-                    if (categoryId) {
-                        const filterProducts = data.filter(p => p.categoria == categoryId)
-                        setProducts(filterProducts)
-                    } else {
-                        setProducts(data)
-                    }
+        try {
+            const snapshot = await getDocs(obrasRef);
+            const data = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
 
-                })
-                .catch((error) => console.log(error))
+            if (categoryId) {
+                const filterProducts = data.filter((p) => p.categoria === categoryId);
+                setProducts(filterProducts);
+            } else {
+                setProducts(data);
+            }
+        } catch (error) {
+            console.error('Error fetching data from Firestore:', error);
         }
+    };
 
-        fetchData()
+    fetchData();
+}, [categoryId]);
 
-    }, [categoryId])
-
-    return (
+     return (
         <>
             {products.length == 0
                 ?
