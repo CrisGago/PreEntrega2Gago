@@ -1,7 +1,5 @@
 import React from 'react'
 import { useState, useEffect } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
 import NavBar from './components/NavBar/NavBar';
 import {getFirestore,collection,getDocs,query,where} from "firebase/firestore";
@@ -15,13 +13,6 @@ import ItemDetailContainer from './components/ItemDetailContainer/ItemDetailCont
 import CartWidget from './components/CartWidget/CartWidget';
 import ChecKout from './components/ChecKout/ChecKout';
 import Error from './components/Error/Error';
-import Cart from './components/Cart/Cart';
-import ThemeProvider from './context/ThemeProvider';
-
-import {getFirestore,collection,getDocs,quer} from "firebase/firestore";
-
-
-
 
 
 function App() {
