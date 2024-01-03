@@ -12,6 +12,7 @@ const CartWidget = () => {
             <Link to="/cart">
                 <BiCartDownload />
                 <p>Icono del carrito</p>
+            </Link>    
 
             {/* <BiCartDownload />
             <p>0</p> */}
