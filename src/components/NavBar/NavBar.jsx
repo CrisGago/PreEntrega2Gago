@@ -4,9 +4,7 @@ import "./navbar.css";
 
 const NavBar = () => {
     const enlaces = [
-        "Inicio",
-        // categorias
-        "Mono",
+        "Monoambiente",
         "Barbacoa",
         "Duplex",
         "Big"
@@ -16,6 +14,7 @@ const NavBar = () => {
         <div className="nav">
             <Link className="enlace" to={"/"}>
                 <img src="/img/logo3d.jpg" alt="Logo" />
+                
             </Link>
 
              <ul className="enlacesContainer">

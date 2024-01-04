@@ -14,7 +14,7 @@ const Item = ({product}) => {
             </Link>
             
             <img src={product.img} alt={product.nombre} />
-            
+                        
             
         </div>  
 
