@@ -5,7 +5,6 @@ import "./navbar.css";
 const NavBar = () => {
     const enlaces = [
         "Inicio",
-        "Obras",
         // categorias
         "Mono",
         "Barbacoa",
@@ -22,7 +21,7 @@ const NavBar = () => {
              <ul className="enlacesContainer">
                 {enlaces.map((e, id) => (
                     <li className="liContainer" key={id}>
-                        <NavLink activeclassname="active" to={`${e}`}>
+                        <NavLink activeclassname="active" to={`/${e}`}>
                             {e}
                         </NavLink>
                     </li>

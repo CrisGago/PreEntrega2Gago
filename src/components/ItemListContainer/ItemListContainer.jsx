@@ -1,49 +1,53 @@
-import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
 import ItemList from '../ItemList/ItemList';
 import { useParams } from 'react-router-dom';
-import { getFirestore, collection, getDocs } from 'firebase/firestore'; // Importa las funciones de Firestore
-
+import { getFirestore, collection, getDocs, query, where } from 'firebase/firestore';
 
 const ItemListContainer = () => {
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const { categoryId } = useParams();
 
-    const [products, setProducts] = useState([]);
-    const [londing, setLoading] = useState(true);
-    const { categoryId } = useParams();
+  useEffect(() => {
+    setLoading(true);
 
-
-useEffect(() => {
     const fetchData = async () => {
-        const db = getFirestore();
-        const obrasRef = collection(db, 'productos');
+      const db = getFirestore();
+      const productoRef = collection(db, 'productos');
+      let productoQuery = productoRef;
 
-        try {
-            const snapshot = await getDocs(obrasRef);
-            const data = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+      if (categoryId) {
+        productoQuery = query(productoRef, where('categoria', '==', categoryId));
+      }
 
-            if (categoryId) {
-                const filterProducts = data.filter((p) => p.categoria === categoryId);
-                setProducts(filterProducts);
-            } else {
-                setProducts(data);
-            }
-        } catch (error) {
-            console.error('Error fetching data from Firestore:', error);
-        }
+      try {
+        const snapshot = await getDocs(productoQuery);
+
+        const nuevosProducto = snapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+
+        setProducts(nuevosProducto);
+      } catch (error) {
+        console.error('Error al obtener datos de Firestore:', error);
+      } finally {
+        setLoading(false);
+      }
     };
 
     fetchData();
-}, [categoryId]);
+  }, [categoryId]);
 
-     return (
-        <>
-            {products.length == 0
-                ?
-                <h1>En Construcción de clic en el logo o en Modelo "ej. Mono"...</h1>
-                :
-                <ItemList products={products} />}
-        </>
-    );
+  return (
+    <>
+      {loading ? (
+        <h1>Cargando...</h1>
+      ) : (
+        <ItemList products={products} />
+      )}
+    </>
+  );
 };
 
 export default ItemListContainer;

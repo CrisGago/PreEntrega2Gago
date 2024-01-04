@@ -1,20 +1,23 @@
 import React from "react";
+import { CartContext } from "../../context/CartContext";
+
 
 const CartItem = ({ cartItem, removeItem }) => {
-  const productos = cartItem.productos || {};
-  const productId = productos.id || '';
+  const producto = cartItem.productos || {};
+  const productId = producto.id || '';
 
   return (
-    <div key={productId} className="cart-item">
-      <img src={`/img/${productos.img || ''}`} alt={productos.nombre || ''} />
-      <h1>{productos.nombre || ''}</h1>
-      <p>{productos.precio || ''}</p>
-      <p>{productos.stock || ''}</p>
-      <p>{productos.descripcion || ''}</p>
+    <div key={cartItem.producto.productId} className="cart-item">
+      <img src={cartItem.producto.img} alt={cartItem.producto.nombre} />
+      <h1>{cartItem.producto.nombre || ''}</h1>
+      <p>{cartItem.producto.precio || ''}</p>
+      <p>{cartItem.producto.stock || ''}</p>
+      <p>{cartItem.producto.descripcion || ''}</p>
       <p>{cartItem.cantidad || ''}</p>
-      <p>{cartItem.cantidad * (productos.precio || 0)}</p>
-      <button onClick={() => removeItem(productId)}>
+      <p>{cartItem.cantidad * (cartItem.producto.precio || 0)}</p>
+      <button onClick={() => removeItem(cartItem.producto.id)}>
         ELIMINAR PRODUCTO
+      
       </button>
     </div>
   );

@@ -1,16 +1,20 @@
-div {
-    display: flex;
-    align-items: center;
-    color: #333; /* Cambia el color del texto según tus preferencias */
-    cursor: pointer; /* Cambia el cursor al pasar sobre el carrito */
-  }
-  
-  /* Estilos para el icono del carrito */
-  svg {
-    font-size: 1.5rem; /* Ajusta el tamaño del icono según sea necesario */
-  }
-  
-  /* Estilos para la cantidad de elementos en el carrito */
-  p {
-    margin-left: 5px;
-  }
+/* Estilos para el contenedor del widget de carrito */
+.cart-widget-container {
+  position:absolute;
+  top: 50px;
+  right: 500px;
+  display: flex;
+  align-items: center;
+  color: #333;
+  cursor: pointer;
+}
+
+/* Estilos para el icono del carrito */
+.cart-icon {
+  font-size: 1.5rem;
+}
+
+/* Estilos para la cantidad de elementos en el carrito */
+.cart-counter {
+  margin-left: 5px;
+}

@@ -15,6 +15,7 @@ const Item = ({product}) => {
             
             <img src={product.img} alt={product.nombre} />
             
+            
         </div>  
 
         

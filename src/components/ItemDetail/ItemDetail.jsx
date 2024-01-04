@@ -29,8 +29,8 @@ const ItemDetail = ({ producto }) => {
             {quantity === 0 ? (
                 <ItemCount initial={1} stock={producto.stock} onAdd={onAdd} />
             ) : (
-                <Link to={"/CartWidget"} className="item-detail-button">
-                    Ir al carrito
+                <Link to={"/Cart"} className="item-detail-button">
+                    Mis Compras Carrito
                 </Link>
             )}
         </div>

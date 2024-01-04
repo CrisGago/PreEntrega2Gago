@@ -1,147 +1,160 @@
+
 import React, { useState, useEffect, useContext } from "react";
-import { collection, addDoc, getDoc, updateDoc } from "firebase/firestore";
+import { collection, addDoc, getDoc, updateDoc, doc } from "firebase/firestore";
 import { CartContext } from "../../context/CartContext";
 import { getFirestore } from "firebase/firestore";
 import "./checkout.css";
 
 const Checkout = () => {
-    const { cart, total,cantidadTotal, clearCart } = useContext(CartContext);
-    
-
     const [nombre, setNombre] = useState("");
     const [apellido, setApellido] = useState("");
     const [email, setEmail] = useState("");
     const [confirmacionEmail, setConfirmacionEmail] = useState("");
     const [error, setError] = useState("");
-    const [ordenId, setOrdenId] = useState("");
-    
+    const [ordenId, setOrdenId] = useState(null);
+    const [formEnviado, setFormEnviado] = useState(false);
+    const [ordenProcesada, setOrdenProcesada] = useState(false);
 
-    const controlFormulario = async (e) => {
-        e.preventDefault();
+    const { cart, total, clearCart } = useContext(CartContext);
 
-        if (!nombre || !apellido || !email || !confirmacionEmail) {
-            setError("Por favor, completa todos los campos del formulario.");
-            return;
+    const controlFormulario = (event) => {
+        event.preventDefault();
+
+        if (!formEnviado) {
+            if (!nombre || !apellido || !email || !confirmacionEmail) {
+                setError("Por favor, completa todos los campos del formulario.");
+                return;
+            }
+
+            if (email !== confirmacionEmail) {
+                setError("Los correos electrónicos no coinciden");
+                return;
+            }
+
+            setFormEnviado(true);
         }
+    };
 
-        if (email !== confirmacionEmail) {
-            setError("Los correos electrónicos no coinciden");
-            return;
+    useEffect(() => {
+        const generarOrden = async () => {
+            const db = getFirestore();
+            const orden = {
+                items: cart.map((producto) => ({
+                    id: producto.producto.id,
+                    nombre: producto.producto.nombre,
+                    cantidad: producto.cantidad
+                })),
+                total: total,
+                fecha: new Date(),
+                nombre,
+                apellido,
+                email
+            };
+
+            try {
+                // Actualizar stock
+                await Promise.all(
+                    orden.items.map(async (productoOrden) => {
+                        const productoRef = doc(db, "productos", productoOrden.id);
+                        const productoDoc = await getDoc(productoRef);
+                        const stockActual = productoDoc.data().stock;
+
+                        if (stockActual === null || stockActual === 0 || stockActual < productoOrden.cantidad) {
+                            throw new Error(`No hay suficiente stock para ${productoOrden.nombre}.`);
+                        }
+
+                        await updateDoc(productoRef, {
+                            stock: stockActual - productoOrden.cantidad
+                        });
+                    })
+                );
+
+                // Agregar orden a la colección
+                const docRef = await addDoc(collection(db, "ordenes"), orden);
+                setOrdenId(docRef.id);
+                clearCart();
+                setOrdenProcesada(true);
+            } catch (error) {
+                setError("Error al procesar la orden: " + error.message);
+            }
+        };
+
+        if (formEnviado && !ordenProcesada) {
+            generarOrden();
         }
-    }
-        //genrar la orden
-        const db = getFirestore()
-        const Orden = {
-           items: cart.map((producto) => ({
-            id: producto.productos?.id,
-            nombre: producto.productos?.nombre,
-            cantidad: producto.cantidad
-        })),
-        total:total,
-        fecha: new Date(),
-        nombre,
-        apellido,
-        email
-        }
-       Promise.all(
-            Orden.items.map(async(productoOrden) =>{
-            const obrasRef = doc(db,"productos", productoOrden)
-            const productoDoc = await getDoc(obrasRef)
-            const stockActual = productoDoc.data().stock
-            await updateDoc(obrasRef,{
-                stock: stockActual - productoOrden.cantidad
-            })
-         })
-       )
-        .then(() =>{
-            addDoc(collection(db,"ordenes"),Orden)
-            .then((obrasRef) =>{
-                setOrdenId(obrasRef.id);
-                clearCart()
-            })
-        })
-            .catch((error) =>{
-                setError("Error al crear la orden")
-            })
-            .catch((error) =>{
-                setError("No se actualizo el stock, intente más tarde")
-            })
-    
+    }, [formEnviado, cart, total, nombre, apellido, email, confirmacionEmail, clearCart, ordenProcesada]);
 
-
-        return (
-            <div>
-                <h1>Checkout</h1>
+    return (
+        <div>
+            <h1>Ingresa tus datos</h1>
+            <form onSubmit={controlFormulario} className="formulario">
                 {cart.map((producto) => (
-                    <div key={producto.productos?.id}>
-                        <p>{producto.productos?.nombre} x {producto.cantidad}</p>
+                    <div key={producto.producto.id}>
+                        <p>
+                            {" "}
+                            {producto.producto.nombre} x {producto.cantidad}{" "}
+                        </p>
                         <p>{producto.precio}</p>
                     </div>
                 ))}
 
-                
+                <div>
+                    <label>
+                        Nombre:
+                        <input
+                            type="text"
+                            value={nombre}
+                            onChange={(e) => setNombre(e.target.value)}
+                            required
+                        />
+                    </label>
+                </div>
+                <div>
+                    <label>
+                        Apellido:
+                        <input
+                            type="text"
+                            value={apellido}
+                            onChange={(e) => setApellido(e.target.value)}
+                            required
+                        />
+                    </label>
+                </div>
+                <div>
+                    <label>
+                        Email:
+                        <input
+                            type="email"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                            required
+                        />
+                    </label>
+                </div>
+                <div>
+                    <label>
+                        Confirmar Email:
+                        <input
+                            type="email"
+                            value={confirmacionEmail}
+                            onChange={(e) => setConfirmacionEmail(e.target.value)}
+                            required
+                        />
+                    </label>
+                </div>
+                {error && <p style={{ color: "red" }}>{error}</p>}
+                <button type="submit" disabled={formEnviado}>
+                    Comprar
+                </button>
+            </form>
 
-                
-                <div>               
-                 <form className="checkout-form" onSubmit={controlFormulario}>
-                        <div>
-                            <label>
-                                Nombre:
-                                <input
-                                    type="text"
-                                    value={nombre}
-                                    onChange={(e) => setNombre(e.target.value)}
-                                    required
-                                />
-                            </label>
-                        </div>
-                        <div>
-                            <label>
-                                Apellido:
-                                <input
-                                    type="text"
-                                    value={apellido}
-                                    onChange={(e) => setApellido(e.target.value)}
-                                    required
-                                />
-                            </label>
-                        </div>
-                        <div>
-                            <label>
-                                Email:
-                                <input
-                                    type="email"
-                                    value={email}
-                                    onChange={(e) => setEmail(e.target.value)}
-                                    required
-                                />
-                            </label>
-                        </div>
-                        <div>
-                            <label>
-                                Confirmar Email:
-                                <input
-                                    type="email"
-                                    value={confirmacionEmail}
-                                    onChange={(e) => setConfirmacionEmail(e.target.value)}
-                                    required
-                                />
-                            </label>
-                        </div>
-                        {error && <p style={{ color: "red" }}>{error}</p>}
-                        <button type="submit">Realizar Compra</button>
-                        {
-                            ordenId && (
-                                <p>Tu compra a finalizado con exito. Número de Orden es:(ordenId)</p>
-                            )
-                        }
-                    </form>
-                    </div>    
-                
+            {ordenId && (
+                <strong className="ordenid">
+                    <p>Tu compra ha finalizado con éxito. Número de Orden: {ordenId}</p>
+                </strong>
+            )}
+        </div>
+    );
+};
 
-                
-            </div>
-
-      );
-    };
-    export default Checkout;
+export default Checkout;

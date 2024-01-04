@@ -20,7 +20,7 @@ function App() {
 
   useEffect(()=>{
     const db = getFirestore()
-    console.log(db)
+    //console.log(db)
 
     const obrasRef = collection(db, "productos");
     const q = query(obrasRef);

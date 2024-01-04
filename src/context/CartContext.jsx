@@ -1,25 +1,24 @@
-import React,{createContext, useState} from "react"
+import React, {createContext, useState} from "react";
 
-export const CartContext = createContext()
-
+export const CartContext = createContext();
 
 export const CartProvider = ({children}) => {
 
 
-    const [cart,setCart] = useState([])
-    const [total,setTotal] = useState(0)
-    const [cantidadTotal,setCantidadTotal] = useState(0)
+    const [cart,setCart] = useState([]);
+    const [total,setTotal] = useState(0);
+    const [cantidadTotal,setCantidadTotal] = useState(0);
 
     const addToCart = (producto, cantidad) => {
-        const productoExistente = cart.find(prod => prod.productos.id === producto.id);
+        const productoExistente = cart.find((prod) => prod.producto.id === producto.id);
     
         if (!productoExistente) {
             setCart(prev => [...prev, { producto, cantidad }]);
             setCantidadTotal(prev => prev + cantidad);
             setTotal(prev => prev + producto.precio * cantidad);
         } else {
-            const carritoActualizado = cart.map(prod => {
-                if (prod.productos.id === producto.id) {
+            const carritoActualizado = cart.map((prod) => {
+                if (prod.producto.id === producto.id) {
                     return { ...prod, cantidad: prod.cantidad + cantidad };
                 } else {
                     return prod;
@@ -33,8 +32,8 @@ export const CartProvider = ({children}) => {
     };
 
     const removeItem = (id) => {
-        const productoEliminado = cart.find(prod => prod.producto.id === id);
-        const carritoActualizado = cart.filter(prod => prod.producto.id !== id);
+        const productoEliminado = cart.find((prod) => prod.producto.id === id);
+        const carritoActualizado = cart.filter((prod) => prod.producto.id !== id);
     
         setCart(carritoActualizado);
         setCantidadTotal(prev => prev - productoEliminado.cantidad);
@@ -52,15 +51,15 @@ export const CartProvider = ({children}) => {
             value={
                 {
                     cart,
-                    total,
-                    cantidadTotal,
                     addToCart,
                     removeItem,
+                    total,
+                    cantidadTotal,
                     clearCart
                 }    
             }>
             {children}
         </CartContext.Provider>
-    )
+    );
 
-}
+};
